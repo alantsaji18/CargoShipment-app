@@ -46,11 +46,11 @@ app.config(function($routeProvider) {
 });
 
 // ==========================================
-// SHARED DATA FACTORY (WITH LOCALSTORAGE)
+// SHARED DATA FACTORY (DYNAMIC LOCALSTORAGE)
 // ==========================================
 app.factory('ShipmentService', function() {
-    // 1. SHIPMENTS & HISTORY DATA
-    var shipments = [
+    
+    var defaultShipments = [
         { id: '101', trackingId: 'CRG-101', sender: 'Acme Logistics', receiver: 'Global Tech', origin: 'New York', destination: 'London', mode: 'Air', status: 'In Transit', weight: '350 kg', carrier: 'Emirates SkyCargo', cost: '1,250', eta: '2026-08-01' },
         { id: '102', trackingId: 'CRG-102', sender: 'LogiTrans Services', receiver: 'Nexus Retail', origin: 'Shanghai', destination: 'Hamburg', mode: 'Sea', status: 'Pending', weight: '1,200 kg', carrier: 'Maersk Line', cost: '3,400', eta: '2026-08-15' },
         { id: '103', trackingId: 'CRG-103', sender: 'FastTrack Ltd', receiver: 'Apex Distributors', origin: 'Tokyo', destination: 'Sydney', mode: 'Express', status: 'Delivered', weight: '45 kg', carrier: 'DHL Express', cost: '450', eta: '2026-07-20' },
@@ -62,7 +62,7 @@ app.factory('ShipmentService', function() {
         { id: '109', trackingId: 'CRG-109', sender: 'Amazonas Maritime', receiver: 'Panama Central hub', origin: 'Santos', destination: 'Colon', mode: 'Sea', status: 'Pending', weight: '3,100 kg', carrier: 'Hapag-Lloyd', cost: '5,250', eta: '2026-08-22' }
     ];
 
-    var historyData = [
+    var defaultHistory = [
         { trackingId: 'CRG-090', sender: 'Aero Cargo', receiver: 'Euro Mart', origin: 'Paris', destination: 'Berlin', mode: 'Road', carrier: 'DHL Freight', completedDate: '2026-06-12', status: 'Delivered', weight: '420 kg', cost: '850.00', notes: 'Arrived on schedule without customs delay.' },
         { trackingId: 'CRG-088', sender: 'Pacific Shipping', receiver: 'West Coast Supplies', origin: 'Singapore', destination: 'Los Angeles', mode: 'Sea', carrier: 'Maersk Line', completedDate: '2026-05-28', status: 'Delivered', weight: '2,100 kg', cost: '4,200.00', notes: 'Port inspection completed cleanly.' },
         { trackingId: 'CRG-085', sender: 'Balkan Express', receiver: 'Adria Logistics', origin: 'Athens', destination: 'Zagreb', mode: 'Road', carrier: 'Gebrüder Weiss', completedDate: '2026-05-14', status: 'Delivered', weight: '730 kg', cost: '1,100.00', notes: 'Border clearance completed in under 2 hours.' },
@@ -74,57 +74,75 @@ app.factory('ShipmentService', function() {
         { trackingId: 'CRG-063', sender: 'Nordic Trans-Baltic', receiver: 'Estonia Components', origin: 'Helsinki', destination: 'Tallinn', mode: 'Sea', carrier: 'Tallink Silja Cargo', completedDate: '2026-03-05', status: 'Delivered', weight: '640 kg', cost: '580.00', notes: 'Direct port delivery verified by dispatch.' }
     ];
 
-    // 2. LOAD USERS FROM LOCALSTORAGE
-    var loadRegisteredUsers = function() {
-        var stored = localStorage.getItem('cargo_users');
-        if (stored) {
-            return JSON.parse(stored);
-        } else {
-            // Default initial user
-            var defaultUsers = [
-                { name: 'Admin Operator', email: 'admin@cargo.com', password: 'password123' }
-            ];
-            localStorage.setItem('cargo_users', JSON.stringify(defaultUsers));
-            return defaultUsers;
-        }
-    };
-
-    // 3. LOAD CURRENT SESSION FROM LOCALSTORAGE
-    var loadCurrentUser = function() {
-        var savedUser = localStorage.getItem('cargo_currentUser');
-        return savedUser ? JSON.parse(savedUser) : null;
-    };
-
-    var registeredUsers = loadRegisteredUsers();
-    var currentUser = loadCurrentUser();
+    if (!localStorage.getItem('cargo_users')) {
+        localStorage.setItem('cargo_users', JSON.stringify([{ name: 'Admin Operator', email: 'admin@cargo.com', password: 'password123' }]));
+    }
+    if (!localStorage.getItem('cargo_shipments')) {
+        localStorage.setItem('cargo_shipments', JSON.stringify(defaultShipments));
+    }
+    if (!localStorage.getItem('cargo_history')) {
+        localStorage.setItem('cargo_history', JSON.stringify(defaultHistory));
+    }
 
     return {
-        getShipments: function() { return shipments; },
-        addShipment: function(newShipment) { shipments.push(newShipment); },
-        getHistory: function() { return historyData; },
+        getShipments: function() {
+            var stored = localStorage.getItem('cargo_shipments');
+            return stored ? JSON.parse(stored) : defaultShipments;
+        },
+
+        getHistory: function() {
+            var stored = localStorage.getItem('cargo_history');
+            return stored ? JSON.parse(stored) : defaultHistory;
+        },
+
+        addShipment: function(newShipment) {
+            var shipments = this.getShipments();
+            var historyData = this.getHistory();
+
+            shipments.unshift(newShipment);
+            localStorage.setItem('cargo_shipments', JSON.stringify(shipments));
+
+            var historyEntry = {
+                trackingId: newShipment.trackingId,
+                sender: newShipment.sender || 'N/A',
+                receiver: newShipment.receiver || 'N/A',
+                origin: newShipment.origin || 'N/A',
+                destination: newShipment.destination || 'N/A',
+                mode: newShipment.mode || 'Road',
+                carrier: newShipment.carrier || 'Standard Carrier',
+                completedDate: newShipment.eta || new Date().toISOString().split('T')[0],
+                status: newShipment.status || 'Pending',
+                weight: newShipment.weight ? (newShipment.weight.toString().includes('kg') ? newShipment.weight : newShipment.weight + ' kg') : 'N/A',
+                cost: newShipment.cost ? (newShipment.cost.toString().includes('$') ? newShipment.cost : newShipment.cost) : '0.00',
+                notes: 'Shipment created and registered in the system.'
+            };
+
+            historyData.unshift(historyEntry);
+            localStorage.setItem('cargo_history', JSON.stringify(historyData));
+        },
 
         registerUser: function(newUser) {
-            var exists = registeredUsers.some(function(u) {
+            var users = JSON.parse(localStorage.getItem('cargo_users')) || [];
+            var exists = users.some(function(u) {
                 return u.email.toLowerCase() === newUser.email.toLowerCase();
             });
             if (exists) {
                 return { success: false, message: 'An account with this email address already exists.' };
             }
-            registeredUsers.push(newUser);
-            // Save updated user array to localStorage
-            localStorage.setItem('cargo_users', JSON.stringify(registeredUsers));
+            users.push(newUser);
+            localStorage.setItem('cargo_users', JSON.stringify(users));
             return { success: true };
         },
 
         validateUser: function(email, password) {
-            var user = registeredUsers.find(function(u) {
+            var users = JSON.parse(localStorage.getItem('cargo_users')) || [];
+            var user = users.find(function(u) {
                 return u.email.toLowerCase() === email.toLowerCase() && u.password === password;
             });
             return user || null;
         },
 
-        setUser: function(user) { 
-            currentUser = user; 
+        setUser: function(user) {
             if (user) {
                 localStorage.setItem('cargo_currentUser', JSON.stringify(user));
             } else {
@@ -132,15 +150,17 @@ app.factory('ShipmentService', function() {
             }
         },
 
-        getUser: function() { return currentUser; },
+        getUser: function() {
+            var saved = localStorage.getItem('cargo_currentUser');
+            return saved ? JSON.parse(saved) : null;
+        },
 
-        logout: function() { 
-            currentUser = null; 
+        logout: function() {
             localStorage.removeItem('cargo_currentUser');
         },
 
-        isLoggedIn: function() { 
-            return currentUser !== null; 
+        isLoggedIn: function() {
+            return localStorage.getItem('cargo_currentUser') !== null;
         }
     };
 });
@@ -162,12 +182,11 @@ app.run(function($rootScope, $location, ShipmentService) {
         $location.path('/login');
     };
 
-    // INTERCEPT ROUTE CHANGES FOR AUTHENTICATION
     $rootScope.$on('$routeChangeStart', function(event, next, current) {
         if (next && next.$$route && next.$$route.requiresAuth) {
             if (!ShipmentService.isLoggedIn()) {
-                event.preventDefault(); // Cancel route navigation
-                $location.path('/login'); // Redirect to login page
+                event.preventDefault();
+                $location.path('/login');
             }
         }
     });
@@ -231,6 +250,10 @@ app.controller('LoginController', function($scope, $location, ShipmentService) {
 // 2. DASHBOARD CONTROLLER
 app.controller('DashboardController', function($scope, ShipmentService) {
     $scope.shipments = ShipmentService.getShipments();
+
+    $scope.$on('$viewContentLoaded', function() {
+        $scope.shipments = ShipmentService.getShipments();
+    });
 });
 
 // 3. ADD SHIPMENT CONTROLLER
@@ -247,7 +270,6 @@ app.controller('AddShipmentController', function($scope, $location, ShipmentServ
         $scope.newShipment.id = randomId;
         $scope.newShipment.trackingId = 'CRG-' + randomId;
 
-        // Format ETA Date
         if ($scope.newShipment.etaDate) {
             var d = new Date($scope.newShipment.etaDate);
             $scope.newShipment.eta = d.toISOString().split('T')[0];
@@ -266,16 +288,24 @@ app.controller('ShipmentController', function($scope, ShipmentService) {
     $scope.activeModalItem = {};
     $scope.searchTerm = '';
 
+    $scope.$on('$viewContentLoaded', function() {
+        $scope.shipments = ShipmentService.getShipments();
+    });
+
     $scope.selectShipment = function(shipment) {
         $scope.activeModalItem = shipment;
     };
 });
 
-// 5. HISTORY ARCHIVE CONTROLLER
+// 5. HISTORY ARCHIVE CONTROLLER (demo.html)
 app.controller('HistoryController', function($scope, ShipmentService) {
-    $scope.historyList = ShipmentService.getHistory();
+    $scope.historyList = angular.copy(ShipmentService.getHistory());
     $scope.selectedItem = {};
     $scope.searchQuery = '';
+
+    $scope.$on('$viewContentLoaded', function() {
+        $scope.historyList = angular.copy(ShipmentService.getHistory());
+    });
 
     $scope.openDetailModal = function(item) {
         $scope.selectedItem = item;
