@@ -3,93 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargo Shipment Management</title>
+    <title>Global Cargo & Logistics Management SPA</title>
 
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- BOOTSTRAP 4.6 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FONT AWESOME ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=5">
+    <!-- GLOBAL CUSTOM CSS -->
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
 
-    <!-- AngularJS & Route -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+        /* NAVIGATION BAR GLASSMORPHISM */
+        .custom-navbar {
+            background-color: rgba(15, 23, 42, 0.92) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link {
+            color: #94a3b8 !important;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            padding: 0.5rem 1rem !important;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #38bdf8 !important;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background-color: #0284c7;
+            border-color: #0284c7;
+        }
+        .btn-primary:hover {
+            background-color: #0369a1;
+            border-color: #0369a1;
+        }
+
+        /* FOOTER */
+        .custom-footer {
+            background-color: #090d16;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
 </head>
+<body class="d-flex flex-column min-vh-100">
 
-<body>
+    <!-- GLOBAL NAVIGATION BAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top py-3">
+        <div class="container">
+            
+            <!-- BRAND LOGO -->
+            <a class="navbar-brand d-flex align-items-center text-white" ng-href="#!/home">
+                <div class="p-2 bg-primary rounded-circle mr-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <i class="fas fa-boxes text-white"></i>
+                </div>
+                <span>CARGO<span class="text-info">HUB</span></span>
+            </a>
 
-<!-- NAVIGATION BAR -->
-<nav class="navbar navbar-expand-lg navbar-dark nav-custom shadow-sm py-3">
-    <div class="container">
-        <a class="navbar-brand font-weight-bold" ng-href="#!/">
-            <i class="fas fa-shipping-fast text-primary mr-2"></i> Cargo System
-        </a>
+            <!-- MOBILE TOGGLER -->
+            <button class="navbar-toggler border-secondary" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <!-- NAVIGATION LINKS -->
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" ng-href="#!/home">
+                            <i class="fas fa-home mr-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-href="#!/dashboard">
+                            <i class="fas fa-chart-line mr-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-href="#!/shipments">
+                            <i class="fas fa-cubes mr-1"></i> Directory
+                        </a>
+                    </li>
+                    <li class="nav-item" ng-if="isLoggedIn()">
+                        <a class="nav-link" ng-href="#!/add">
+                            <i class="fas fa-plus-circle mr-1 text-info"></i> New Dispatch
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-href="#!/demo">
+                            <i class="fas fa-history mr-1"></i> Audit Logs
+                        </a>
+                    </li>
+                </ul>
 
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav ml-auto align-items-center">
-                <li class="nav-item">
-                    <a ng-href="#!/" class="nav-link"><i class="fas fa-home mr-1"></i> Home</a>
-                </li>
-                <li class="nav-item" ng-if="isLoggedIn()">
-                    <a ng-href="#!/dashboard" class="nav-link"><i class="fas fa-chart-line mr-1"></i> Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a ng-href="#!/shipments" class="nav-link"><i class="fas fa-box mr-1"></i> Shipments</a>
-                </li>
-                <li class="nav-item" ng-if="isLoggedIn()">
-                    <a ng-href="#!/add" class="nav-link"><i class="fas fa-plus-circle mr-1"></i> Add Shipment</a>
-                </li>
-                <li class="nav-item">
-                    <a ng-href="#!/demo" class="nav-link"><i class="fas fa-flask mr-1"></i> Shipment History</a>
-                </li>
+                <!-- USER AUTHENTICATION CONTROLS -->
+                <ul class="navbar-nav align-items-lg-center">
+                    
+                    <!-- WHEN LOGGED OUT -->
+                    <li class="nav-item" ng-if="!isLoggedIn()">
+                        <a class="nav-link" ng-href="#!/login">
+                            <i class="fas fa-sign-in-alt mr-1"></i> Sign In
+                        </a>
+                    </li>
+                    <li class="nav-item" ng-if="!isLoggedIn()">
+                        <a class="btn btn-outline-info btn-sm px-3 ml-lg-2 font-weight-bold" ng-href="#!/register">
+                            Register
+                        </a>
+                    </li>
 
-                <!-- Logged Out Actions -->
-                <li class="nav-item ml-lg-3" ng-if="!isLoggedIn()">
-                    <a ng-href="#!/login" class="btn btn-outline-light btn-sm px-3 mr-2"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
-                </li>
-                <li class="nav-item" ng-if="!isLoggedIn()">
-                    <a ng-href="#!/register" class="btn btn-primary text-white btn-sm px-3"><i class="fas fa-user-plus mr-1"></i> Register</a>
-                </li>
+                    <!-- WHEN LOGGED IN -->
+                    <li class="nav-item dropdown" ng-if="isLoggedIn()">
+                        <span class="navbar-text text-white font-weight-bold mr-3">
+                            <i class="fas fa-user-circle text-info mr-1"></i> 
+                            {{getCurrentUser().name || 'Operator'}}
+                        </span>
+                    </li>
+                    <li class="nav-item" ng-if="isLoggedIn()">
+                        <button class="btn btn-outline-danger btn-sm px-3 font-weight-bold" ng-click="logout()">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                        </button>
+                    </li>
 
-                <!-- Logged In Actions -->
-                <li class="nav-item ml-lg-3 d-flex align-items-center" ng-if="isLoggedIn()">
-                    <span class="text-light small mr-3"><i class="fas fa-user-circle mr-1"></i> {{getCurrentUser().name}}</span>
-                    <button class="btn btn-outline-light btn-sm px-3" ng-click="logout()"><i class="fas fa-sign-out-alt mr-1"></i> Logout</button>
-                </li>
-            </ul>
+                </ul>
+            </div>
+
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- MAIN DYNAMIC CONTAINER -->
-<main class="container my-5">
-    <div ng-view class="fade-in"></div>
-</main>
+    <!-- MAIN VIEW CONTAINER (CONSTRAINED CONTAINER) -->
+    <main class="container flex-grow-1 py-4" ng-view></main>
 
-<!-- FOOTER -->
-<footer class="footer text-center py-4 border-top mt-auto">
-    <div class="container">
-        <small>© Cargo Shipment System | Enterprise Logistics Dashboard</small>
-    </div>
-</footer>
+    <!-- GLOBAL FOOTER -->
+    <footer class="custom-footer py-3 text-center text-muted small mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Global Cargo & Freight Telemetry System. Built with AngularJS & Bootstrap.</p>
+        </div>
+    </footer>
 
-<!-- DEPENDENCY SCRIPTS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="app.js"></script>
+    <!-- JQUERY & BOOTSTRAP JS DEPENDENCIES -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- ANGULARJS CORE & NG-ROUTE -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+
+    <!-- APPLICATION SCRIPT -->
+    <script src="app.js"></script>
 </body>
 </html>

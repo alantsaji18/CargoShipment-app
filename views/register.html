@@ -1,85 +1,85 @@
-<div class="row justify-content-center py-5">
-    <div class="col-md-7 col-lg-6">
-        <div class="card shadow border-0">
-            <div class="card-body p-4 p-md-5">
-                <div class="text-center mb-4">
-                    <div class="icon-circle bg-soft-primary text-primary mx-auto mb-3">
-                        <i class="fas fa-user-plus fa-lg"></i>
+<div class="container-fluid py-5 min-vh-100 d-flex align-items-center justify-content-center position-relative" 
+     style="background: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1920&q=80') center/cover fixed no-repeat;">
+
+    <div class="row justify-content-center w-100">
+        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10">
+            
+            <div class="card bg-dark text-white border-secondary shadow-lg overflow-hidden" 
+                 style="backdrop-filter: blur(12px); background-color: rgba(30, 41, 59, 0.85) !important;">
+                
+                <!-- HEADER BANNER -->
+                <div class="p-4 border-bottom border-secondary text-center position-relative" 
+                     style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80') center/cover;">
+                    <div class="mb-2">
+                        <i class="fas fa-user-plus text-info fa-2x"></i>
                     </div>
-                    <h3 class="font-weight-bold">Create an Account</h3>
-                    <p class="text-muted">Register to manage cargo shipments and deliveries</p>
+                    <h3 class="font-weight-bold text-white mb-1">Operator Onboarding</h3>
+                    <p class="text-light small mb-0">Create new credentials for full dispatch access and route tracking.</p>
                 </div>
 
-                <!-- Status Alerts -->
-                <div class="alert alert-danger" ng-if="errorMessage">
-                    <i class="fas fa-exclamation-circle mr-2"></i>{{errorMessage}}
+                <!-- REGISTER FORM -->
+                <div class="card-body p-4 p-md-5">
+                    <form ng-submit="registerUser()">
+                        
+                        <!-- Full Name -->
+                        <div class="form-group mb-3">
+                            <label class="small text-muted font-weight-bold">Full Name / Dispatcher Identifier</label>
+                            <div class="position-relative">
+                                <i class="fas fa-user position-absolute text-muted" style="left: 15px; top: 50%; transform: translateY(-50%);"></i>
+                                <input type="text" class="form-control bg-secondary text-white border-0 shadow-none custom-register-input" 
+                                       placeholder="e.g. Alant Saji" 
+                                       ng-model="credentials.name" required 
+                                       style="height: 45px; padding-left: 42px !important;">
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group mb-3">
+                            <label class="small text-muted font-weight-bold">Official Email Address</label>
+                            <div class="position-relative">
+                                <i class="fas fa-envelope position-absolute text-muted" style="left: 15px; top: 50%; transform: translateY(-50%);"></i>
+                                <input type="email" class="form-control bg-secondary text-white border-0 shadow-none custom-register-input" 
+                                       placeholder="operator@cargosystem.com" 
+                                       ng-model="credentials.email" required 
+                                       style="height: 45px; padding-left: 42px !important;">
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group mb-4">
+                            <label class="small text-muted font-weight-bold">Security Password</label>
+                            <div class="position-relative">
+                                <i class="fas fa-lock position-absolute text-muted" style="left: 15px; top: 50%; transform: translateY(-50%);"></i>
+                                <input type="password" class="form-control bg-secondary text-white border-0 shadow-none custom-register-input" 
+                                       placeholder="••••••••••••" 
+                                       ng-model="credentials.password" required 
+                                       style="height: 45px; padding-left: 42px !important;">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-block py-2 font-weight-bold shadow-sm mb-3">
+                            <i class="fas fa-check-circle mr-2"></i> Complete Registration & Sign In
+                        </button>
+
+                        <!-- Footer Links -->
+                        <div class="text-center pt-2 border-top border-secondary">
+                            <span class="small text-muted">Already registered as an operator? </span>
+                            <a ng-href="#!/login" class="small text-info font-weight-bold">Sign In Here</a>
+                        </div>
+
+                    </form>
                 </div>
-                <div class="alert alert-success" ng-if="successMessage">
-                    <i class="fas fa-check-circle mr-2"></i>{{successMessage}}
-                </div>
 
-                <form ng-submit="register()">
-                    <div class="form-group">
-                        <label class="font-weight-medium">Full Name</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                            </div>
-                            <input type="text" class="form-control" ng-model="user.fullName" placeholder="e.g. full name" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="font-weight-medium">Email Address</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                            </div>
-                            <input type="email" class="form-control" ng-model="user.email" placeholder="name@gmail.com" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="font-weight-medium">Username</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            </div>
-                            <input type="text" class="form-control" ng-model="user.username" placeholder="Choose a username" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label class="font-weight-medium">Password</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                </div>
-                                <input type="password" class="form-control" ng-model="user.password" placeholder="Create password" required>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="font-weight-medium">Confirm Password</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-check-double"></i></span>
-                                </div>
-                                <input type="password" class="form-control" ng-model="user.confirmPassword" placeholder="Repeat password" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block btn-lg shadow-sm mt-3">
-                        <i class="fas fa-user-check mr-2"></i> Register Account
-                    </button>
-                </form>
-
-                <div class="text-center mt-4 pt-3 border-top">
-                    <span class="text-muted">Already have an account?</span>
-                    <a ng-href="#!/login" class="font-weight-bold ml-1">Sign In here</a>
-                </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<style>
+    .custom-register-input::placeholder {
+        color: #a0aec0 !important;
+        opacity: 1 !important;
+    }
+</style>

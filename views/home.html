@@ -1,33 +1,163 @@
-<div class="py-4">
-    <!-- Hero Section -->
-    <div class="row align-items-center my-5">
-        <div class="col-lg-6">
-            <span class="badge badge-primary px-3 py-2 mb-3 rounded-pill">Welcome to Cargo Track</span>
-            <h1 class="display-4 font-weight-bold">Seamless Freight & Logistics Management</h1>
-            <p class="lead text-muted mt-3">Streamline your supply chain operations, route tracking, and package delivery status with our unified enterprise platform.</p>
-            <div class="mt-4">
-                <a ng-href="#!/shipments" class="btn btn-primary btn-lg mr-3"><i class="fas fa-boxes mr-2"></i> Browse Shipments</a>
-                <a ng-href="#!/login" class="btn btn-outline-secondary btn-lg" ng-if="!isLoggedIn()"><i class="fas fa-sign-in-alt mr-2"></i> Portal Login</a>
-                <a ng-href="#!/dashboard" class="btn btn-success btn-lg" ng-if="isLoggedIn()"><i class="fas fa-chart-line mr-2"></i> Go to Dashboard</a>
-            </div>
-        </div>
-        <div class="col-lg-6 mt-4 mt-lg-0">
-            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80" class="img-fluid rounded-lg shadow-lg" alt="Logistics">
-        </div>
-    </div>
+<div class="container py-4">
 
-    <hr class="my-5">
-
-    <!-- Feature Highlights -->
-    <div class="row text-center my-4">
-        <div class="col-md-4 mb-4" ng-repeat="feature in features">
-            <div class="card h-100 p-4 border-0 shadow-sm">
-                <div class="icon-circle bg-soft-primary text-primary mx-auto mb-3">
-                    <i class="fas {{feature.icon}} fa-lg"></i>
+    <!-- HERO SECTION -->
+    <div class="hero-gradient p-4 p-md-5 mb-5 shadow-lg position-relative overflow-hidden">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <span class="badge badge-glass px-3 py-2 rounded-pill font-weight-semibold mb-3">
+                    <i class="fas fa-rocket mr-1"></i> Next-Gen Logistics Engine
+                </span>
+                <h1 class="display-4 font-weight-bold text-white mb-3" style="line-height: 1.15;">
+                    Intelligent Cargo & Supply Chain Tracking
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Empowering global trade with real-time route telemetry, automated dispatch monitoring, and unified freight intelligence.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a ng-href="#!/shipments" class="btn btn-primary btn-lg px-4 mr-3 font-weight-bold shadow-sm">
+                        <i class="fas fa-boxes mr-2"></i> Browse Directory
+                    </a>
+                    <a ng-href="#!/dashboard" class="btn btn-outline-light btn-lg px-4 font-weight-bold">
+                        <i class="fas fa-chart-line mr-2"></i> Analytics Dashboard
+                    </a>
                 </div>
-                <h5 class="font-weight-bold">{{feature.title}}</h5>
-                <p class="text-muted mb-0">{{feature.desc}}</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="img-wrap shadow-lg border border-secondary">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80" 
+                         alt="Automated Cargo Fulfillment Warehouse" 
+                         class="img-fluid w-100">
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- PLATFORM STATS STRIP -->
+    <div class="row mb-5 text-center">
+        <div class="col-md-3 col-6 mb-3 mb-md-0">
+            <div class="card border-0 shadow-sm p-3 bg-white card-hover">
+                <h2 class="font-weight-bold text-primary mb-0">99.8%</h2>
+                <small class="text-muted font-weight-bold">On-Time Route Reliability</small>
+            </div>
+        </div>
+        <div class="col-md-3 col-6 mb-3 mb-md-0">
+            <div class="card border-0 shadow-sm p-3 bg-white card-hover">
+                <h2 class="font-weight-bold text-success mb-0">120+</h2>
+                <small class="text-muted font-weight-bold">Global Transit Hubs</small>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card border-0 shadow-sm p-3 bg-white card-hover">
+                <h2 class="font-weight-bold text-info mb-0">&lt; 15ms</h2>
+                <small class="text-muted font-weight-bold">Status Update Latency</small>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card border-0 shadow-sm p-3 bg-white card-hover">
+                <h2 class="font-weight-bold text-warning mb-0">24 / 7</h2>
+                <small class="text-muted font-weight-bold">Automated Dispatch</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURE GRID WITH IMAGES -->
+    <div class="mb-5">
+        <div class="text-center mb-5">
+            <h2 class="font-weight-bold text-white">Multi-Modal Freight Excellence</h2>
+            <p class="text-muted">End-to-end operational control across air, sea, express, and road logistics networks.</p>
+        </div>
+
+        <div class="row">
+            <!-- AIR FREIGHT CARD -->
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100 card-hover bg-white overflow-hidden">
+                    <div class="img-wrap style="height: 200px;">
+                        <img src="https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=800&q=80" 
+                             alt="Air Freight Logistics" 
+                             class="img-fluid w-100 h-100" style="object-fit: cover;">
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-plane text-primary fa-lg mr-2"></i>
+                            <h5 class="font-weight-bold mb-0 text-dark">Air Cargo Network</h5>
+                        </div>
+                        <p class="text-muted small">
+                            High-velocity air freight routing for time-sensitive emergency deliveries, complete with flight ETA tracking.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEA FREIGHT CARD -->
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100 card-hover bg-white overflow-hidden">
+                    <div class="img-wrap style="height: 200px;">
+                        <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=800&q=80" 
+                             alt="Maritime Freight Vessel" 
+                             class="img-fluid w-100 h-100" style="object-fit: cover;">
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-ship text-info fa-lg mr-2"></i>
+                            <h5 class="font-weight-bold mb-0 text-dark">Maritime Transport</h5>
+                        </div>
+                        <p class="text-muted small">
+                            Scalable container vessel management for global trade routes, ocean ports, and customs transit logs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROAD & EXPRESS CARD -->
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100 card-hover bg-white overflow-hidden">
+                    <div class="img-wrap style="height: 200px;">
+                        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80" 
+                             alt="Road Freight Truck Logistics" 
+                             class="img-fluid w-100 h-100" style="object-fit: cover;">
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-truck text-warning fa-lg mr-2"></i>
+                            <h5 class="font-weight-bold mb-0 text-dark">Express Fleet</h5>
+                        </div>
+                        <p class="text-muted small">
+                            Last-mile road transport fleet coordination with dynamic route recalculation for zero-delay handover.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVENTION / STORY SECTION -->
+    <div class="card border-0 shadow-lg p-4 p-md-5 bg-white mb-5">
+        <div class="row align-items-center">
+            <div class="col-md-5 mb-4 mb-md-0">
+                <div class="img-wrap rounded shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80" 
+                         alt="Logistics Innovation Hub" 
+                         class="img-fluid w-100">
+                </div>
+            </div>
+            <div class="col-md-7 pl-md-4">
+                <span class="badge badge-primary px-3 py-1 mb-2">Platform Innovation</span>
+                <h3 class="font-weight-bold text-dark mb-3">Architected for Supply Chain Transparency</h3>
+                <p class="text-muted">
+                    Cargo System was engineered to eliminate communication silos between freight forwarders, carriers, and consignees. By leveraging a lightweight Single Page Application (SPA) architecture driven by AngularJS, operational staff can execute updates, adjust freight modes, and monitor active transit routes with zero page reloads.
+                </p>
+                <div class="row pt-2">
+                    <div class="col-6">
+                        <h6 class="font-weight-bold text-dark"><i class="fas fa-bolt text-warning mr-1"></i> Fast Data Bindings</h6>
+                        <p class="small text-muted">Instant synchronisation across view templates and controllers.</p>
+                    </div>
+                    <div class="col-6">
+                        <h6 class="font-weight-bold text-dark"><i class="fas fa-shield-alt text-success mr-1"></i> Secure Control</h6>
+                        <p class="small text-muted">Role-based access restricting shipment creation to verified operators.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
