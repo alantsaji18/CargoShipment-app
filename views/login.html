@@ -1,0 +1,50 @@
+<div class="row justify-content-center py-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow border-0">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <div class="icon-circle bg-soft-primary text-primary mx-auto mb-3">
+                        <i class="fas fa-lock fa-lg"></i>
+                    </div>
+                    <h3 class="font-weight-bold">Account Sign In</h3>
+                    <p class="text-muted">Enter credentials to access your dashboard</p>
+                </div>
+
+                <div class="alert alert-danger" ng-if="errorMessage">
+                    <i class="fas fa-exclamation-circle mr-2"></i>{{errorMessage}}
+                </div>
+
+                <form ng-submit="login()">
+                    <div class="form-group">
+                        <label class="font-weight-medium">Username or Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" ng-model="credentials.username" placeholder="Username or email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="font-weight-medium">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" class="form-control" ng-model="credentials.password" placeholder="Password" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg shadow-sm">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Log In
+                    </button>
+                </form>
+
+                <div class="text-center mt-4 pt-3 border-top">
+                    <span class="text-muted">Don't have an account?</span>
+                    <a ng-href="#!/register" class="font-weight-bold ml-1">Create one</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

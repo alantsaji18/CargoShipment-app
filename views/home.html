@@ -1,0 +1,33 @@
+<div class="py-4">
+    <!-- Hero Section -->
+    <div class="row align-items-center my-5">
+        <div class="col-lg-6">
+            <span class="badge badge-primary px-3 py-2 mb-3 rounded-pill">Welcome to Cargo Track</span>
+            <h1 class="display-4 font-weight-bold">Seamless Freight & Logistics Management</h1>
+            <p class="lead text-muted mt-3">Streamline your supply chain operations, route tracking, and package delivery status with our unified enterprise platform.</p>
+            <div class="mt-4">
+                <a ng-href="#!/shipments" class="btn btn-primary btn-lg mr-3"><i class="fas fa-boxes mr-2"></i> Browse Shipments</a>
+                <a ng-href="#!/login" class="btn btn-outline-secondary btn-lg" ng-if="!isLoggedIn()"><i class="fas fa-sign-in-alt mr-2"></i> Portal Login</a>
+                <a ng-href="#!/dashboard" class="btn btn-success btn-lg" ng-if="isLoggedIn()"><i class="fas fa-chart-line mr-2"></i> Go to Dashboard</a>
+            </div>
+        </div>
+        <div class="col-lg-6 mt-4 mt-lg-0">
+            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80" class="img-fluid rounded-lg shadow-lg" alt="Logistics">
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <!-- Feature Highlights -->
+    <div class="row text-center my-4">
+        <div class="col-md-4 mb-4" ng-repeat="feature in features">
+            <div class="card h-100 p-4 border-0 shadow-sm">
+                <div class="icon-circle bg-soft-primary text-primary mx-auto mb-3">
+                    <i class="fas {{feature.icon}} fa-lg"></i>
+                </div>
+                <h5 class="font-weight-bold">{{feature.title}}</h5>
+                <p class="text-muted mb-0">{{feature.desc}}</p>
+            </div>
+        </div>
+    </div>
+</div>
